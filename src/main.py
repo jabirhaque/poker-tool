@@ -23,10 +23,17 @@ app.add_middleware(
 async def root():
     return {"message": "Hello World"}
 
-@app.get("/test")
-async def test(item: Annotated[list[str] | None, Query()] = None, type: str = None):
-    return {"list of items": item,
-            "type": type}
+@app.get("/get_probability_test")
+async def get_probability_test():
+    # http://127.0.0.1:8000/get_probability?pocket=TD&pocket=3S&community=TH&community=4S&community=2C&opponent_num=1
+    pocket = [Card('TD'), Card('3S')]
+    community = [Card('TH'), Card('4S'), Card('2C')]
+    game = Game(pocket, community, 1, [])
+    return {
+        'win': probability(game)[0],
+        'draw': probability(game)[1],
+        'loss': probability(game)[2]
+    }
 
 @app.get("/get_probability")
 async def get_probability(pocket: Annotated[list[str] | None, Query()] = None, community: Annotated[list[str] | None, Query()] = None, opponent_num: int = None):
@@ -34,4 +41,8 @@ async def get_probability(pocket: Annotated[list[str] | None, Query()] = None, c
     pocket = [Card(key) for key in pocket]
     community = [Card(key) for key in community]
     game = Game(pocket, community, opponent_num, [])
-    return {'probability': probability(game)}
+    return {
+        'win': probability(game)[0],
+        'draw': probability(game)[1],
+        'loss': probability(game)[2]
+    }

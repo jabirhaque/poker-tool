@@ -1,7 +1,7 @@
-import {useGetMessageQuery} from "./api.ts";
+import {useGetProbabilityQuery} from "./api.ts";
 
 export default function App() {
-  const { data, error, isLoading } = useGetMessageQuery()
+  const { data, error, isLoading } = useGetProbabilityQuery()
 
   if (isLoading){
     return(
@@ -13,5 +13,11 @@ export default function App() {
         <h1>ERROR</h1>
     )
   }
-  return <h1>{data.message}</h1>
+  return(
+      <>
+        <h3>P(win): {data.win}</h3>
+        <h3>P(draw): {data.draw}</h3>
+        <h3>P(loss): {data.loss}</h3>
+      </>
+  )
 }

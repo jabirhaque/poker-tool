@@ -7,7 +7,13 @@ export const api = createApi({
     getMessage: builder.query<{ message: string }, void>({
       query: () => ``,
     }),
+    getProbability: builder.query<{ win: number, draw: number, loss: number }, void>({
+      query: () => `/get_probability_test`,
+    }),
   }),
 })
 
-export const {useGetMessageQuery} = api
+export const {
+  useGetMessageQuery,
+  useGetProbabilityQuery
+} = api
