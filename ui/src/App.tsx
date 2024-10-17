@@ -1,18 +1,17 @@
-import {useEffect, useState} from "react";
+import {useGetMessageQuery} from "./api.ts";
 
 export default function App() {
-  const [fact, setFact] = useState("");
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const { data, error, isLoading } = useGetMessageQuery()
 
-  const fetchData = () => {
-    fetch("http://127.0.0.1:8000/")
-        .then((result) => result.json())
-        .then((data) => setFact(data.message));
-  };
-
-  return (
-      <h1>{fact}</h1>
-  );
+  if (isLoading){
+    return(
+        <h1>Loading...</h1>
+    )
+  }
+  if (error){
+    return(
+        <h1>ERROR</h1>
+    )
+  }
+  return <h1>{data.message}</h1>
 }
